@@ -1,0 +1,113 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+.control-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.date-inputs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+input[type="date"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.weekdays-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.weekdays-selector label {
+    font-weight: normal;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #217346; /* Excel 綠色 */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background-color: #1a5c38;
+}
+
+hr {
+    margin: 20px 0;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+
+/* Excel 格子風格樣式 */
+.excel-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0; /* Excel 格子通常緊貼 */
+    border-top: 1px solid #d4d4d4;
+    border-left: 1px solid #d4d4d4;
+}
+
+.excel-cell {
+    width: 80px; /* 固定寬度，也可以設為 auto */
+    height: 60px;
+    background: #fff;
+    border-right: 1px solid #d4d4d4;
+    border-bottom: 1px solid #d4d4d4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    color: #333;
+    box-sizing: border-box; /* 確保邊框算在寬度內 */
+}
+
+.excel-cell .day-name {
+    font-weight: bold;
+    color: #666;
+    margin-bottom: 4px;
+    font-size: 12px;
+}
+
+.excel-cell .date-text {
+    font-size: 16px;
+    font-weight: normal;
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日期篩選生成器</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h2>日期篩選器</h2>
+        
+        <div class="control-group">
+            <label>1. 選擇日期範圍：</label>
+            <div class="date-inputs">
+                <input type="date" id="startDate">
+                <span>至</span>
+                <input type="date" id="endDate">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label>2. 選擇星期幾 (可多選)：</label>
+            <div class="weekdays-selector">
+                <label><input type="checkbox" name="weekday" value="1"> Mon (一)</label>
+                <label><input type="checkbox" name="weekday" value="2"> Tue (二)</label>
+                <label><input type="checkbox" name="weekday" value="3"> Wed (三)</label>
+                <label><input type="checkbox" name="weekday" value="4"> Thu (四)</label>
+                <label><input type="checkbox" name="weekday" value="5"> Fri (五)</label>
+                <label><input type="checkbox" name="weekday" value="6"> Sat (六)</label>
+                <label><input type="checkbox" name="weekday" value="0"> Sun (日)</label>
+            </div>
+        </div>
+
+        <button id="generateBtn">生成日期列表</button>
+
+        <hr>
+
+        <div id="resultArea" class="excel-grid">
+            </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
