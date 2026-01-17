@@ -34,16 +34,21 @@ label {
     gap: 10px;
 }
 
-input[type="date"] {
+input[type="date"], select {
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    font-size: 14px;
 }
 
 .weekdays-selector {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 4px;
+    border: 1px solid #eee;
 }
 
 .weekdays-selector label {
@@ -52,12 +57,13 @@ input[type="date"] {
     display: flex;
     align-items: center;
     gap: 5px;
+    margin-bottom: 0;
 }
 
 button {
     width: 100%;
     padding: 10px;
-    background-color: #217346; /* Excel 綠色 */
+    background-color: #217346;
     color: white;
     border: none;
     border-radius: 4px;
@@ -76,17 +82,17 @@ hr {
     border-top: 1px solid #eee;
 }
 
-/* Excel 格子風格樣式 */
+/* Excel Grid Style */
 .excel-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 0; /* Excel 格子通常緊貼 */
+    gap: 0;
     border-top: 1px solid #d4d4d4;
     border-left: 1px solid #d4d4d4;
 }
 
 .excel-cell {
-    width: 80px; /* 固定寬度，也可以設為 auto */
+    width: 80px;
     height: 60px;
     background: #fff;
     border-right: 1px solid #d4d4d4;
@@ -97,7 +103,7 @@ hr {
     align-items: center;
     font-size: 14px;
     color: #333;
-    box-sizing: border-box; /* 確保邊框算在寬度內 */
+    box-sizing: border-box;
 }
 
 .excel-cell .day-name {
@@ -109,5 +115,4 @@ hr {
 
 .excel-cell .date-text {
     font-size: 16px;
-    font-weight: normal;
 }
