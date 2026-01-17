@@ -60,20 +60,38 @@ input[type="date"], select {
     margin-bottom: 0;
 }
 
+/* --- 按鈕群組樣式修改 --- */
+.btn-group {
+    display: flex;
+    gap: 10px; /* 按鈕之間的距離 */
+}
+
 button {
-    width: 100%;
     padding: 10px;
-    background-color: #217346;
-    color: white;
     border: none;
     border-radius: 4px;
     font-size: 16px;
     cursor: pointer;
     transition: background 0.3s;
+    flex: 1; /* 讓兩個按鈕平均分配寬度 */
 }
 
-button:hover {
+.primary-btn {
+    background-color: #217346;
+    color: white;
+}
+
+.primary-btn:hover {
     background-color: #1a5c38;
+}
+
+.secondary-btn {
+    background-color: #6c757d; /* 灰色 */
+    color: white;
+}
+
+.secondary-btn:hover {
+    background-color: #5a6268;
 }
 
 hr {
@@ -82,8 +100,22 @@ hr {
     border-top: 1px solid #eee;
 }
 
-/* Excel Grid Style */
-.excel-grid {
+/* Excel Grid & Week Section */
+.week-section {
+    margin-bottom: 20px;
+}
+
+.week-header {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 8px;
+    padding-left: 5px;
+    border-left: 4px solid #217346;
+    line-height: 1.2;
+}
+
+.week-grid {
     display: flex;
     flex-wrap: wrap;
     gap: 0;

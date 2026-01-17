@@ -1,4 +1,3 @@
-// 定義所有星期的資料 (JS中 0=Sun, 1=Mon, ..., 6=Sat)
 const allWeekdays = [
     { val: 0, label: "Sun (日)" },
     { val: 1, label: "Mon (一)" },
@@ -12,63 +11,71 @@ const allWeekdays = [
 const weekStartSelect = document.getElementById('weekStartSelect');
 const weekdayContainer = document.getElementById('weekdayContainer');
 const generateBtn = document.getElementById('generateBtn');
+const resetBtn = document.getElementById('resetBtn'); // 新增
 const resultArea = document.getElementById('resultArea');
+const startDateInput = document.getElementById('startDate');
+const endDateInput = document.getElementById('endDate');
 
-// 初始化：頁面載入時先渲染一次
+// 初始化
 renderCheckboxes(parseInt(weekStartSelect.value));
 
-// 監聽：當使用者改變「週起始日」時，重新排列複選框
 weekStartSelect.addEventListener('change', function() {
     renderCheckboxes(parseInt(this.value));
 });
 
-// 函數：渲染複選框
 function renderCheckboxes(startDay) {
-    weekdayContainer.innerHTML = ''; // 清空現有選項
-    
-    // 決定順序
+    // 這裡會清空舊的並生成新的 checkbox (預設是不勾選狀態)
+    weekdayContainer.innerHTML = '';
     let orderedDays = [];
     if (startDay === 1) {
-        // 週一開始: [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
-        // 陣列過濾：先拿 1-6，再拿 0
         const monToSat = allWeekdays.filter(d => d.val !== 0);
         const sun = allWeekdays.find(d => d.val === 0);
         orderedDays = [...monToSat, sun];
     } else {
-        // 週日開始: [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
-        // 原本的順序就是 0-6，直接用即可 (因為 allWeekdays[0] 就是 Sun)
         orderedDays = [...allWeekdays];
     }
 
-    // 建立 HTML
     orderedDays.forEach(day => {
         const label = document.createElement('label');
+        // 注意：這裡生成的 checkbox 預設沒有 checked 屬性
         label.innerHTML = `<input type="checkbox" name="weekday" value="${day.val}"> ${day.label}`;
         weekdayContainer.appendChild(label);
     });
 }
 
-// 主功能：生成日期
-generateBtn.addEventListener('click', function() {
-    const startDateInput = document.getElementById('startDate').value;
-    const endDateInput = document.getElementById('endDate').value;
+// --- 重設功能 (新增部分) ---
+resetBtn.addEventListener('click', function() {
+    // 1. 清空結果區
+    resultArea.innerHTML = '';
     
+    // 2. 清空日期輸入
+    startDateInput.value = '';
+    endDateInput.value = '';
+    
+    // 3. 恢復下拉選單到預設值 (Monday Start)
+    weekStartSelect.value = "1";
+    
+    // 4. 重新渲染複選框 (這會自動清除所有勾選狀態並排回 Monday Start 順序)
+    renderCheckboxes(1);
+});
+
+// --- 生成功能 ---
+generateBtn.addEventListener('click', function() {
     resultArea.innerHTML = '';
 
-    if (!startDateInput || !endDateInput) {
+    if (!startDateInput.value || !endDateInput.value) {
         alert("請選擇開始與結束日期");
         return;
     }
 
-    const start = new Date(startDateInput);
-    const end = new Date(endDateInput);
+    const start = new Date(startDateInput.value);
+    const end = new Date(endDateInput.value);
 
     if (start > end) {
         alert("開始日期不能晚於結束日期");
         return;
     }
 
-    // 獲取使用者勾選的星期
     const checkboxes = document.querySelectorAll('input[name="weekday"]:checked');
     const selectedDays = Array.from(checkboxes).map(cb => parseInt(cb.value));
 
@@ -77,18 +84,45 @@ generateBtn.addEventListener('click', function() {
         return;
     }
 
-    // 為了顯示用，建立一個簡單的查找表
     const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const weekStartDay = parseInt(weekStartSelect.value);
 
     let current = new Date(start);
-    // 設定時間為中午，避免時區導致日期跳動
     current.setHours(12, 0, 0, 0);
-    
     const endCompare = new Date(end);
     endCompare.setHours(12, 0, 0, 0);
 
+    let weekCount = 1;
+    let currentWeekSection = null;
+    let currentWeekGrid = null;
+
+    function createNewWeek(count) {
+        const section = document.createElement('div');
+        section.className = 'week-section';
+        const header = document.createElement('div');
+        header.className = 'week-header';
+        header.innerText = `Week ${count}:`;
+        section.appendChild(header);
+        const grid = document.createElement('div');
+        grid.className = 'week-grid';
+        section.appendChild(grid);
+        resultArea.appendChild(section);
+        return { section, grid };
+    }
+
+    let weekObj = createNewWeek(weekCount);
+    currentWeekGrid = weekObj.grid;
+
+    let isFirstDay = true;
+
     while (current <= endCompare) {
-        const dayIndex = current.getDay(); // 0-6
+        const dayIndex = current.getDay();
+
+        if (dayIndex === weekStartDay && !isFirstDay) {
+            weekCount++;
+            weekObj = createNewWeek(weekCount);
+            currentWeekGrid = weekObj.grid;
+        }
 
         if (selectedDays.includes(dayIndex)) {
             const dayName = dayNames[dayIndex];
@@ -98,21 +132,31 @@ generateBtn.addEventListener('click', function() {
 
             const cell = document.createElement('div');
             cell.className = 'excel-cell';
-            // 根據是否為週末給予不同顏色樣式 (可選)
+            
             if (dayIndex === 0 || dayIndex === 6) {
-                cell.style.backgroundColor = "#fff9f9"; // 週末微微泛紅
+                cell.style.backgroundColor = "#fff9f9";
                 cell.style.color = "#d93025";
             }
-            
+
             cell.innerHTML = `
                 <span class="day-name">${dayName}</span>
                 <span class="date-text">${dateStr}</span>
             `;
 
-            resultArea.appendChild(cell);
+            currentWeekGrid.appendChild(cell);
         }
+
         current.setDate(current.getDate() + 1);
+        isFirstDay = false;
     }
+
+    const allSections = document.querySelectorAll('.week-section');
+    allSections.forEach(sec => {
+        const grid = sec.querySelector('.week-grid');
+        if (grid.children.length === 0) {
+            sec.remove();
+        }
+    });
 
     if (resultArea.children.length === 0) {
         resultArea.innerHTML = '<div style="padding:20px;">在此日期範圍內找不到符合的星期。</div>';

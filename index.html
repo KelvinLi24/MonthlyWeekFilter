@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>日期篩選生成器 (可選週起始)</title>
+    <title>日期篩選生成器 (含重設功能)</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -34,11 +34,14 @@
                 </div>
         </div>
 
-        <button id="generateBtn">生成日期列表</button>
+        <div class="btn-group">
+            <button id="generateBtn" class="primary-btn">生成日期列表</button>
+            <button id="resetBtn" class="secondary-btn">重設</button>
+        </div>
 
         <hr>
 
-        <div id="resultArea" class="excel-grid"></div>
+        <div id="resultArea"></div>
     </div>
 
     <script src="script.js"></script>
