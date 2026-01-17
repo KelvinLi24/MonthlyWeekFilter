@@ -11,12 +11,12 @@ const allWeekdays = [
 const weekStartSelect = document.getElementById('weekStartSelect');
 const weekdayContainer = document.getElementById('weekdayContainer');
 const generateBtn = document.getElementById('generateBtn');
-const resetBtn = document.getElementById('resetBtn'); // 新增
+const resetBtn = document.getElementById('resetBtn');
 const resultArea = document.getElementById('resultArea');
 const startDateInput = document.getElementById('startDate');
 const endDateInput = document.getElementById('endDate');
 
-// 初始化
+// 初始化：根據 HTML 的預設值 (現在是0) 渲染
 renderCheckboxes(parseInt(weekStartSelect.value));
 
 weekStartSelect.addEventListener('change', function() {
@@ -24,39 +24,36 @@ weekStartSelect.addEventListener('change', function() {
 });
 
 function renderCheckboxes(startDay) {
-    // 這裡會清空舊的並生成新的 checkbox (預設是不勾選狀態)
     weekdayContainer.innerHTML = '';
     let orderedDays = [];
     if (startDay === 1) {
+        // 週一開始
         const monToSat = allWeekdays.filter(d => d.val !== 0);
         const sun = allWeekdays.find(d => d.val === 0);
         orderedDays = [...monToSat, sun];
     } else {
+        // 週日開始 (這是現在的預設路徑)
         orderedDays = [...allWeekdays];
     }
 
     orderedDays.forEach(day => {
         const label = document.createElement('label');
-        // 注意：這裡生成的 checkbox 預設沒有 checked 屬性
         label.innerHTML = `<input type="checkbox" name="weekday" value="${day.val}"> ${day.label}`;
         weekdayContainer.appendChild(label);
     });
 }
 
-// --- 重設功能 (新增部分) ---
+// --- 重設功能 ---
 resetBtn.addEventListener('click', function() {
-    // 1. 清空結果區
     resultArea.innerHTML = '';
-    
-    // 2. 清空日期輸入
     startDateInput.value = '';
     endDateInput.value = '';
     
-    // 3. 恢復下拉選單到預設值 (Monday Start)
-    weekStartSelect.value = "1";
+    // 修改處：重設時回到 "0" (星期日)
+    weekStartSelect.value = "0";
     
-    // 4. 重新渲染複選框 (這會自動清除所有勾選狀態並排回 Monday Start 順序)
-    renderCheckboxes(1);
+    // 修改處：重新渲染傳入 0
+    renderCheckboxes(0);
 });
 
 // --- 生成功能 ---
@@ -118,6 +115,7 @@ generateBtn.addEventListener('click', function() {
     while (current <= endCompare) {
         const dayIndex = current.getDay();
 
+        // 換週邏輯：當碰到設定的起始日 (現在預設是0/週日) 時換週
         if (dayIndex === weekStartDay && !isFirstDay) {
             weekCount++;
             weekObj = createNewWeek(weekCount);

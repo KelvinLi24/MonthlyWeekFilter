@@ -60,10 +60,9 @@ input[type="date"], select {
     margin-bottom: 0;
 }
 
-/* --- 按鈕群組樣式修改 --- */
 .btn-group {
     display: flex;
-    gap: 10px; /* 按鈕之間的距離 */
+    gap: 10px;
 }
 
 button {
@@ -73,7 +72,7 @@ button {
     font-size: 16px;
     cursor: pointer;
     transition: background 0.3s;
-    flex: 1; /* 讓兩個按鈕平均分配寬度 */
+    flex: 1;
 }
 
 .primary-btn {
@@ -86,7 +85,7 @@ button {
 }
 
 .secondary-btn {
-    background-color: #6c757d; /* 灰色 */
+    background-color: #6c757d;
     color: white;
 }
 
@@ -100,7 +99,6 @@ hr {
     border-top: 1px solid #eee;
 }
 
-/* Excel Grid & Week Section */
 .week-section {
     margin-bottom: 20px;
 }
